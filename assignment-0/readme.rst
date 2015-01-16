@@ -16,3 +16,4 @@ one ``.js`` file as well. Don't worry about backups or starting
 over--for this class, I'll teach you how to use Git and GitHub to 
 commit your work at significant points, instead of manually managing 
 multiple files.
+This is me
