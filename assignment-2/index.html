@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Assignment - 2 (Choose Your Own Adventure)</title>
+</head>
+
+<body>
+  <script>
+  var flipped = 0;
+  console.log('Welcome to madam Zeroni\'s, I provide fortunes to all seekers');
+  var start = confirm('Hello Darling, would you like to have your fortunes told?');
+  if (!start) { //Should we proceed
+	  console.log ('Well fine then, move on wanderer and don\'t bother me again.');
+  } else {
+	  console.log("Let's see who we have with us today to guide us...");
+	  console.log('The Wanderer is an aimless spirt; one who embraces all challenges that a life on the move provides.');
+	  flipped++;
+	  console.log('The King, as ruler over others must think first the ruled then himself. He is both structured in his thinking and adaptive to meet needs as they arise.');
+	  flipped++
+	  console.log('The Soldier is one of disipline, structured thought and defined action. This spirit embraces no change and seeks only order.');
+	  flipped++
+	  
+	  var identifyWith = prompt('Whom do you identify most with? The Soldier, The Wanderer, or The King?');
+      identifyWith = identifyWith.toLowerCase();
+	  switch(identifyWith) { //output affirmation
+		case 'the soldier':
+			console.log('You definately have the bearing of a soldier. I can see it in your eyes.');
+		break;
+		case 'the wanderer':
+			console.log('Your weary soul has surely been on this road a long time.');
+		break;
+		case 'the king':
+		default:
+			console.log('Rest your brow, though you may not know it, your path lies forth as The Kings\' of old. Use their wisdom to giude you and you will go far. You should take a moment to reflect on this.');
+		break;
+	  }
+	  
+	  var steps = prompt('I would reveal to you your true destiny... Please tell me how many steps your would like to take along your path?');
+	  steps = Number(steps);
+	  if (steps <= 1) { //zero or one discards at least one card
+		  console.log('Wise, indeed, is the one that takes the first step toward enlightenment. We will discard this top card.');
+		  flipped++;
+	  } else if (steps === 2) { //discard two cards
+		  console.log('The shortest sight gains little knowledge. True insight lies beyond what is easily foreseen. We will discard these top two cards.');
+		  flipped += 2;
+	  } else { //discard no more than three cards
+		  console.log('We musn\'t be too hasty to see our far-flung future, lest we reveal our own demise.  We will discard only these top three cards.');
+		  flipped += 3;
+	  }	
+	  console.log(flipped);
+	  console.log('I can feel your destiny within the cards. surely you feel the anticipation, too.');  
+	  
+	  var destiny = confirm("Are you ready to face your destiny?");
+	  if (!destiny) {
+		  console.log('There is no shame in not wanting your destiny revealed. Strong is the one that with courage faces The Unknown. Go now, and be resolute in your convistions.');
+	  } else {
+		  flipped++;
+		  if (flipped === 5) {
+			  console.log('Ah! This is The Destroyer. It will be your destiny to break down old ideals and to forge new.  All life is a series of destruction, rebirth and reconstruction. Your path lies here.');
+		  } else if (flipped === 6) {
+			  console.log('The Scholar. This destiny is one of learning and new understanding. Perhaps your will one day even teach the young and unwise. Tread carefully this path for knowledge is power and that power is mighty.');
+		  } else if (flipped === 7) {
+			  console.log('Ah Ha! I knew it, The Undefined! Yours is a special destiny, one that cannot be predetermined nor foreseen. It is a wildly adventurous life that you will lead with untold adventure and heartache.');
+		  }
+	  }
+  }
+  </script> 
+</div>
+</body>
+</html>
