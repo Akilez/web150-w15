@@ -1,0 +1,47 @@
+<!document html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="http://thomaswilburn.net/scc/data/quakes.js"></script>
+  <script>
+  var bigMag = magnitude[0];
+  var bigMagIndex = 0;
+  var totalDepth = 0;
+  var notEarthquakes = 0;
+  var explosionMagTotal = 0;
+  var explosionCount = 0
+  var magOver2 = 0
+
+  for (var i = 0; i < magnitude.length; i++) {
+    if (magnitude[i] > bigMag){
+      bigMag = magnitude[i];
+      bigMagindex = i;
+    }
+    if (magnitude[i] > 2.0) {
+      magOver2++;
+    }
+    totalDepth += depth[i];
+    if (type[i] != 'earthquake') {
+      notEarthquakes++;
+      if (type[i] == "explosion") {
+        explosionMagTotal += magnitude[i];
+        explosionCount++;
+      }
+    }
+  }
+
+  var averageexpolsionMag = explosionMagTotal / explosionCount;
+  var averageDepth = totalDepth / depth.length;
+
+  console.log("The biggest magnitude earthquake was: " + bigMag);
+  console.log("The depth of the biggest magnitude earthquake was: " + depth[bigMagIndex]);
+  console.log("The number of events with magnitude over 2.0: " + magOver2);
+  console.log("The average depth was: " + averageDepth);
+  console.log("The number of \"non-earthquakes\" were: " + notEarthquakes);
+  console.log("The average \"explosion\" magnitude: " + averageexpolsionMag);
+
+  </script>
+  </html>
+  <body>
+  </body>
+  </html>
