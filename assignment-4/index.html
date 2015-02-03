@@ -1,0 +1,65 @@
+<!doctype html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="http://thomaswilburn.net/scc/data/companies.js"></script>
+  </head>
+  <body>
+    <script>
+      var smallestCompany = companies[0]; // Company object of the smallest by employee count
+      var negativeProfitCompanies = []; // Array of companies that lost money
+      var manufacturingCompaniesCount = 0; // Count of manufacturing companies
+      var manufacturingCompaniesMarketCap = 0; // Total of manufacturing company's market cap
+
+      var companiesBySector = {}; // Array to hold companies by sector
+      for (var i = 0; i < companies.length; i++) {
+        var company = companies[i];
+        // Find the smallest company by employees
+        if (company.employees < smallestCompany.employees) {
+          smallestCompany = company;
+        }
+
+        // Fill the array of companies that did not make a profit
+        if (company.profit < 0) {
+          negativeProfitCompanies.push(company);
+        }
+
+        // Count manufacturing companies and total their market cap
+        if (company.sector == "manufacturing") {
+          manufacturingCompaniesCount++;
+          manufacturingCompaniesMarketCap += company.marketCap;
+        }
+
+        // Sort companies by sector
+        var sector = company.sector;
+        if (!companiesBySector[sector]) {
+          companiesBySector[sector] = [];
+        }
+        companiesBySector[sector].push(company);
+      }
+
+      console.log("The company with the smallest number of employees: ", smallestCompany.company, smallestCompany.employees)
+      console.log("Companies that lost money: ")
+      for (var j = 0; j < negativeProfitCompanies.length; j++) {
+        console.log(j+1 , negativeProfitCompanies[j].company, negativeProfitCompanies[j].profit);
+      }
+      console.log("Average market cap in the manufacturing sector: ", manufacturingCompaniesMarketCap / manufacturingCompaniesCount)
+
+      console.log("Employees by Sector");
+      for (sector in companiesBySector) {
+        var sectorList = companiesBySector[sector];
+        var highestEmployees = sectorList[0];
+        var lowestEmployees = sectorList[0];
+        for (var k = 0; k < sectorList.length; k++) {
+          if (sectorList[k].employees > highestEmployees.employees) {
+            highestEmployees = sectorList[k];
+          }
+          if (sectorList[k].employees < lowestEmployees.employees) {
+            lowestEmployees = sectorList[k];
+          }
+        }
+        console.log("Highest number of employees in the " + highestEmployees.sector + " sector: ", highestEmployees.company, highestEmployees.employees)
+        console.log("Lowest number of employees in the " + lowestEmployees.sector + " sector: ", lowestEmployees.company, lowestEmployees.employees)
+      }
+    </script>
+  </body>
+</html>
