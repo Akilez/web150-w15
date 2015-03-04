@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset = "utf8">
+  <title>Irregular Expressions</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <style>
+    body {
+      width:960px;
+      max-width:90%;
+      margin:0 auto;
+    }
+    label {
+      margin-top: 40px;
+    }
+    input {
+      margin:5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Only vowels input -->
+  <label for="vowels">I told the witch doctor, and this is what he said:</label>
+  <input class="vowels form-control" name="vowels" placeholder="Enter only vowels" />
+
+  <!-- End with -ing -->
+  <label for="ing">Johnny! What the heck are you</label>
+  <input class="ing form-control" name="ing" placeholder="Enter a word ending -ing" />
+
+  <!-- Numbers only please -->
+  <label for="numbers">Please deposit this amount from your checking to my savings</label>
+  <input class="numbers form-control" name="numbers" placeholder="Thanks for your donation" />
+  <a href="#" class="btn btn-primary">
+    <span class="glyphicon glyphicon-piggy-bank"></span>
+    Make Deposit
+  </a>
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script>
+    // Get inputs as varables
+    var $vowels= $("input.vowels");
+    var $ing= $("input.ing");
+    var $numbers= $("input.numbers");
+
+    // Validator for vowels
+    var $success = $("<div>")
+      .insertAfter($vowels)
+      .addClass("alert")
+      .hide();
+    $vowels.on("keyup", function() {
+      var $value = $vowels.val();
+      var vowelTest = /^[aeiou]+$/;
+      if (!$value) {
+        $success.slideUp(400);
+      } else {
+        if (vowelTest.test($value)) {
+          $success
+            .addClass("alert-success")
+            .removeClass("alert-danger")
+            .html("ting tang walla walla bing bang")
+            .slideDown(400);
+        } else {
+          $success
+            .addClass("alert-danger")
+            .removeClass("alert-success")
+            .html("That not what he said")
+            .slideDown(400);
+        }
+      }
+    });
+
+    // Validator for -ing
+    $ing.on("change", function() {
+      var $value = $ing.val();
+      var ingTest = /\w+ing$/;
+
+      if (ingTest.test($value)) {
+        $ing
+          .addClass("alert-success")
+          .removeClass("alert-warning")
+      } else {
+        $ing
+          .addClass("alert-warning")
+          .removeClass("alert-success")
+      }
+    });
+
+    // Validator for numbers
+    $numbers.on("keyup", function() {
+      var $value = $numbers.val();
+      var numbersTest = /^-?([0-9,]+)?\.{0,1}\d+$/;
+      var $button = $(".btn-primary");
+
+      if (numbersTest.test($value)) {
+        $button
+          .removeClass("disabled")
+      } else {
+        $button
+          .addClass("disabled")
+      }
+    });
+
+
+  </script>
+
+</body>
+</html>
