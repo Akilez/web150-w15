@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+  <title>Ajax</title>
+  <meta charset=utf8>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+  <style>
+    .social-template {
+      display:none
+    }
+    img {
+      max-width: 100%;
+    }
+  </style>
+
+</head>
+  <body>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Welcome to MarxBook</h1>
+        <p>Hence, they habitually appeal to society at large, without distinction of class; nay, by preference, to the ruling class.</p>
+        <p><a class="btn btn-primary btn-lg" href="http://www.cpusa.org/" role="button">Join us! it's FREE! &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="row">
+            <img src="https://a16z.files.wordpress.com/2014/11/source-fromwiki_credit-braldtbralds.jpg" alt="Karl Marx" />
+            <h1>Ask Our Founder</h1>
+            <div class="output"></div>
+            <a class="btn btn-success grabAJAX" data-cat="yes" href="#"><span class="glyphicon glyphicon-ok-sign"></span> Ask a Question &raquo;</a>
+            <a class="btn btn-danger grabAJAX" data-cat="no" href="#"><span class="glyphicon glyphicon-exclamation-sign"></span> Ask a Question &raquo;</a>
+            <a class="btn btn-warning grabAJAX" data-cat="maybe" href="#"><span class="glyphicon glyphicon-question-sign"></span> Ask a Question &raquo;</a>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="panel panel-default marxfeed" data-url="http://thomaswilburn.net:8080/social">
+            <div class="panel-heading">
+              <h3 class="panel-title">Recent Updates</h3>
+            </div>
+            <div class="panel-body"></div>
+          </div>
+          <a class="btn btn-warning feed" href="#"><span class="glyphicon glyphicon-question-sign"></span> Load More &raquo;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Media Template -->
+    <div class="media shake social-template">
+      <div class="media-left">
+        <a href="#">
+          <img data-holder-rendered="true" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjEyLjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" style="width: 64px; height: 64px;" class="media-object" data-src="holder.js/64x64" alt="64x64">
+        </a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">Media heading</h4>
+        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+      </div>
+    </div>
+
+    <!-- In-class work -->
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script>
+      $(".grabAJAX").on("click", function(e) {
+        e.preventDefault();
+        var $this = $(this);
+        var $category = $this.attr("data-cat");
+
+        var request = $.ajax({
+          url:"http://thomaswilburn.net:8080/magic8",
+          cache:false,
+          data: {
+            category:$category,
+            when:Date.now()
+          },
+          datatype: "jsonp"
+        });
+
+        request.fail(function() {
+          $(".output")
+          .find("p")
+          .remove();
+          var answer = $("<p>Error Contacting the Server</p>");
+          answer.addClass("alert alert-info");
+          answer.appendTo(".output");
+        });
+
+        request.always(function() {
+          var answer = $("<p>Always</p>")
+          .addClass("alert alert-default").appendTo(".output");
+        });
+
+        request.done(function(data) {
+          console.log(data);
+          $(".output")
+          .find("p")
+          .remove();
+          var answer = $("<p>" + data.answer + "</p>").appendTo(".output");
+          switch(data.category.toLowerCase()) {
+            case "yes":
+              answer.addClass("alert alert-success");
+              break;
+            case "no":
+              answer.addClass("alert alert-danger");
+              break;
+            case "maybe":
+              answer.addClass("alert alert-warning");
+              break;
+          }
+        });
+      });
+    </script>
+
+    <!-- Homework -->
+    <script>
+      // Get the feed window
+      var $feed = $(".marxfeed");
+      var executing = false;
+
+      // Initial load of updates
+      $(function(e) {
+        console.log( "Initial load" );
+        getUpdates();
+      });
+
+      // On-click update method
+      $(".feed").on("click", function(e) {
+        e.preventDefault();
+        getUpdates();
+      });
+
+      // On-scroll update method
+      $(window).scroll(function () {
+        // Is the bottom of the feed window near the bottom of the screen?
+        //console.log("window", $(window).height());
+        //console.log("scrolltop", $(window).scrollTop());
+        //console.log("bottom of feed", ($feed.offset().top + $feed.height()));
+
+        // Prevent multiple loads on fast scroll
+        if (executing) return;
+        if ($(window).height() + $(window).scrollTop() >= ($feed.offset().top + $feed.height()) + 50) {
+
+          getUpdates();
+        }
+      });
+
+      var getUpdates = function() {
+        var $url = $feed.attr("data-url");
+        executing = true;
+        var getFeed = $.ajax({
+          url:$url,
+          datatype: "jsonp"
+        });
+
+        getFeed.done(function(data) {
+          console.log(data);
+
+          var updates = data.updates;
+          for (var i = 0; i < updates.length; i++) {
+            var $template = $('.social-template');
+            // Clone the template media item
+            var newItem = $template.clone();
+            // Create a heading
+            var heading = $("<h3>")
+              .addClass("media-heading")
+              .html(updates[i].name);
+            // Add text and heding to media body
+            var body = newItem.find('.media-body')
+              .html(updates[i].status)
+              .prepend(heading);
+            // Add the media item to feed panel
+            newItem
+              .appendTo($feed.find('.panel-body'))
+              .fadeIn(600)
+              .removeClass('social-template');
+          }
+          executing = false;
+        });
+      }
+
+    </script>
+  </body>
+</html>
